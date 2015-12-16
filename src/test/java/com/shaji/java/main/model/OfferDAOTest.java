@@ -1,7 +1,5 @@
 package com.shaji.java.main.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.refEq;
@@ -21,7 +19,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class OfferDAOTest {
+import junit.framework.TestCase;
+
+public class OfferDAOTest extends TestCase {
 
 	private OffersDAO offersDao;
 
