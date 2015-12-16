@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.refEq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -43,6 +45,9 @@ public class OfferDAOTest {
 		when(jdbc.query(eq(sql), any(RowMapper.class))).thenReturn(offers);
 
 		List<Offer> retOffers = offersDao.getOffers();
+
+		verify(jdbc, times(1)).query(eq(sql), any(RowMapper.class));
+
 		assertEquals("Result -> count not matching", retOffers.size(), 2);
 	}
 
@@ -56,6 +61,9 @@ public class OfferDAOTest {
 		when(jdbc.queryForObject(eq(sql), refEq(paramMap), any(RowMapper.class))).thenReturn(offer);
 
 		Offer retOffer = offersDao.getOfferById(100);
+
+		verify(jdbc, times(1)).queryForObject(eq(sql), refEq(paramMap), any(RowMapper.class));
+
 		assertEquals("Result -> name not matching", retOffer.getName(), "John");
 	}
 
@@ -69,6 +77,10 @@ public class OfferDAOTest {
 		when(jdbc.queryForObject(eq(sql), refEq(paramMap), any(RowMapper.class))).thenReturn(offer);
 
 		Offer retOffer = offersDao.getOfferById(200);
+
+		MapSqlParameterSource paramMapWithNonExistingId = new MapSqlParameterSource("id", 200);
+		verify(jdbc, times(1)).queryForObject(eq(sql), refEq(paramMapWithNonExistingId), any(RowMapper.class));
+
 		assertNull("Result -> not null when using non-existing id", retOffer);
 	}
 
